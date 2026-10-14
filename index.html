@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoReporte • Residuos Sólidos y Muro Comunitario</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR CON PESTAÑAS Y ACCIONES -->
+  <header class="navbar no-print">
+    <div class="nav-brand">
+      <div class="brand-avatar">🌱</div>
+      <div>
+        <h1 class="brand-title">EcoReporte</h1>
+        <p class="brand-subtitle">Gestión comunitaria de residuos sólidos</p>
+      </div>
+    </div>
+
+    <!-- SELECTOR DE VISTAS (PESTAÑAS) -->
+    <nav class="nav-tabs">
+      <button id="tab-btn-create" class="tab-btn active">
+        ✏️ Crear Reporte
+      </button>
+      <button id="tab-btn-feed" class="tab-btn">
+        💬 Muro y Comentarios (<span id="badge-total-reports">3</span>)
+      </button>
+    </nav>
+
+    <!-- ACCIONES RÁPIDAS -->
+    <div class="nav-buttons">
+      <button id="btn-example" class="btn btn-pill btn-secondary" title="Cargar reporte de demostración">
+        ✨ Cargar Ejemplo
+      </button>
+      <button id="btn-download-html" class="btn btn-pill btn-download-zip" title="Descargar este archivo listo para mandar por WhatsApp o correo">
+        💾 Descargar Archivo para Enviar
+      </button>
+      <button id="btn-print" class="btn btn-pill btn-primary" title="Generar PDF o imprimir">
+        📄 Descargar Reporte (PDF)
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VISTA 1: CREAR REPORTE (FORMULARIO + VISTA PREVIA)
+       ========================================================================= -->
+  <div id="view-create" class="view-content active">
+    <main class="main-wrapper">
+
+      <!-- LADO IZQUIERDO: FORMULARIO INTUITIVO -->
+      <section class="form-container no-print">
+        <div class="form-header-card">
+          <h2>📝 Nuevo Reporte de Residuos</h2>
+          <p>Llena los datos del lugar y adjunta fotos. Luego puedes publicarlo en el muro o descargarlo en PDF.</p>
+        </div>
+
+        <form id="waste-form" class="simple-form" onsubmit="event.preventDefault();">
+          
+          <!-- 1. DÓNDE ESTÁ EL PROBLEMA -->
+          <div class="card-input">
+            <label for="inp-location" class="input-label">
+              <span class="label-icon">📍</span> ¿Dónde se ubica? (Lugar o Sector)
+            </label>
+            <input type="text" id="inp-location" placeholder="Ej. Parque Los Pinos - Esquina con Calle 4" required>
+          </div>
+
+          <!-- 2. QUIÉN REPORTA Y FECHA -->
+          <div class="grid-2-inputs">
+            <div class="card-input">
+              <label for="inp-reporter" class="input-label">
+                <span class="label-icon">👤</span> Tu nombre o colectivo
+              </label>
+              <input type="text" id="inp-reporter" placeholder="Ej. Vecinos Sector 3 / María G.">
+            </div>
+
+            <div class="card-input">
+              <label for="inp-date" class="input-label">
+                <span class="label-icon">📅</span> Fecha
+              </label>
+              <input type="date" id="inp-date">
+            </div>
+          </div>
+
+          <!-- 3. TIPO DE RESIDUO (PILLS) -->
+          <div class="card-input">
+            <label class="input-label">
+              <span class="label-icon">♻️</span> Tipo de residuo principal
+            </label>
+            <div class="pills-selector" id="waste-type-pills">
+              <button type="button" class="pill-option active" data-val="Plásticos y Envases">🥤 Plásticos y Botellas</button>
+              <button type="button" class="pill-option" data-val="Restos Orgánicos">🍂 Orgánicos / Poda</button>
+              <button type="button" class="pill-option" data-val="Basura Mixta">🗑️ Basura Mixta</button>
+              <button type="button" class="pill-option" data-val="Escombros y Desmonte">🧱 Escombros / Muebles</button>
+              <button type="button" class="pill-option" data-val="Punto Crítico">⚠️ Microbasural Ilegal</button>
+            </div>
+          </div>
+
+          <!-- 4. ESTADO / URGENCIA -->
+          <div class="card-input">
+            <label class="input-label">
+              <span class="label-icon">🚨</span> Nivel de acumulación
+            </label>
+            <div class="pills-selector" id="urgency-pills">
+              <button type="button" class="pill-option pill-low" data-val="Bajo">🟢 Leve</button>
+              <button type="button" class="pill-option pill-mid active" data-val="Moderado">🟡 Moderado</button>
+              <button type="button" class="pill-option pill-high" data-val="Urgente">🔴 Urgente</button>
+            </div>
+          </div>
+
+          <!-- 5. FOTOS DEL LUGAR -->
+          <div class="card-input highlight-box">
+            <div class="upload-head">
+              <label class="input-label">
+                <span class="label-icon">📸</span> Fotos del lugar
+              </label>
+              <span class="photo-badge" id="photo-count-badge">0 fotos</span>
+            </div>
+
+            <div class="simple-dropzone" id="dropzone">
+              <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+              <div class="drop-circle">📷</div>
+              <p class="drop-text"><strong>Haz clic para subir fotos</strong> o arrástralas aquí</p>
+              <span class="drop-hint">Puedes añadir una o varias imágenes de celular</span>
+            </div>
+
+            <div class="photos-editor-list" id="photos-editor-list"></div>
+          </div>
+
+          <!-- 6. DESCRIPCIÓN -->
+          <div class="card-input">
+            <label for="inp-description" class="input-label">
+              <span class="label-icon">💬</span> Comentario o descripción
+            </label>
+            <textarea id="inp-description" rows="3" placeholder="¿Qué observas? Ej. Gran acumulación de bolsas rotas que despiden malos olores y tapan la vereda."></textarea>
+          </div>
+
+          <!-- 7. ACCIÓN SUGERIDA -->
+          <div class="card-input">
+            <label for="inp-solution" class="input-label">
+              <span class="label-icon">🧹</span> Acción sugerida
+            </label>
+            <input type="text" id="inp-solution" placeholder="Ej. Campaña de recojo vecinal y solicitar contenedor con tapa">
+          </div>
+
+          <!-- BOTÓN PUBLICAR EN EL MURO -->
+          <div class="form-publish-actions">
+            <button type="button" id="btn-publish-wall" class="btn btn-publish">
+              📢 Publicar en el Muro Comunitario
+            </button>
+            <button type="button" id="btn-new" class="btn btn-secondary">
+              Limpiar formulario
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- LADO DERECHO: VISTA PREVIA LIMPIA (FICHA AMBIENTAL) -->
+      <section class="preview-container">
+        <div class="preview-notice no-print">
+          <span>👁️ Vista en tiempo real de tu reporte (Formato imprimible):</span>
+        </div>
+
+        <article class="report-card" id="report-card">
+          <div class="report-topbar">
+            <div class="top-nature-tag">
+              <span class="leaf-icon">🌿</span> FICHA DE REPORTE: RESIDUOS SÓLIDOS
+            </div>
+            <div class="top-date" id="pv-date">06/10/2026</div>
+          </div>
+
+          <div class="report-hero">
+            <div class="hero-pin">📍</div>
+            <div class="hero-text">
+              <span class="hero-small">UBICACIÓN:</span>
+              <h2 class="hero-location" id="pv-location">Indica el lugar en el formulario</h2>
+            </div>
+          </div>
+
+          <div class="report-meta-tags">
+            <div class="meta-tag tag-type">
+              <span class="tag-label">Residuo:</span>
+              <strong id="pv-type">Plásticos y Envases</strong>
+            </div>
+            <div class="meta-tag tag-urgency" id="pv-urgency-wrapper">
+              <span class="tag-label">Urgencia:</span>
+              <strong id="pv-urgency">Moderado</strong>
+            </div>
+            <div class="meta-tag tag-reporter">
+              <span class="tag-label">Reportado por:</span>
+              <strong id="pv-reporter">Comunidad Local</strong>
+            </div>
+          </div>
+
+          <div class="report-block">
+            <h3 class="block-title">
+              <span class="title-bullet">👀</span> Situación Observada
+            </h3>
+            <p class="block-content" id="pv-description">
+              Describe en el panel izquierdo lo que observas para verlo reflejado aquí.
+            </p>
+          </div>
+
+          <div class="report-block">
+            <div class="gallery-head">
+              <h3 class="block-title">
+                <span class="title-bullet">📷</span> Registro Fotográfico
+              </h3>
+              <span class="gallery-count" id="pv-photo-count">0 fotos</span>
+            </div>
+
+            <div class="clean-photos-grid" id="pv-photos-grid">
+              <div class="empty-photos-box">
+                <span class="empty-icon">🍃</span>
+                <p>Aún no has agregado fotos.</p>
+                <small>Sube fotos en el panel izquierdo para verlas aquí.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-action-card" id="pv-solution-box">
+            <div class="action-icon">💡</div>
+            <div>
+              <div class="action-heading">Acción Recomendada / Solución:</div>
+              <p class="action-text" id="pv-solution">Coordinar limpieza o colocación de contenedores adecuados.</p>
+            </div>
+          </div>
+
+          <div class="report-footer">
+            <span>🌱 Cuidemos nuestro entorno • EcoReporte</span>
+            <span id="pv-time-now">Hoy</span>
+          </div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       VISTA 2: MURO DE REPORTES Y COMENTARIOS YA HECHOS
+       ========================================================================= -->
+  <div id="view-feed" class="view-content no-print">
+    <section class="feed-wrapper">
+      
+      <!-- CABECERA DEL MURO -->
+      <div class="feed-header">
+        <div class="feed-header-info">
+          <h2>💬 Muro Comunitario de Reportes y Comentarios</h2>
+          <p>Revisa lo que otros vecinos y voluntarios han reportado, añade comentarios o visualiza las fotos de cada lugar.</p>
+        </div>
+        <button id="btn-go-create" class="btn btn-pill btn-primary">
+          ➕ Publicar un Nuevo Reporte
+        </button>
+      </div>
+
+      <!-- FILTRO RÁPIDO DE RESIDUOS -->
+      <div class="feed-filters">
+        <span class="filter-label">Filtrar por:</span>
+        <button class="filter-pill active" data-filter="todos">Todos (<span id="filter-count-all">0</span>)</button>
+        <button class="filter-pill" data-filter="Plásticos y Envases">🥤 Plásticos</button>
+        <button class="filter-pill" data-filter="Punto Crítico">⚠️ Puntos Críticos</button>
+        <button class="filter-pill" data-filter="Restos Orgánicos">🍂 Orgánicos</button>
+        <button class="filter-pill" data-filter="Basura Mixta">🗑️ Basura Mixta</button>
+      </div>
+
+      <!-- LISTADO DE TARJETAS COMUNITARIAS -->
+      <div class="feed-cards-grid" id="feed-cards-container">
+        <!-- Generado dinámicamente con JS -->
+      </div>
+
+    </section>
+  </div>
+
+  <!-- MODAL DE VISUALIZACIÓN RÁPIDA DE IMAGEN -->
+  <div class="image-zoom-overlay" id="image-zoom">
+    <button class="zoom-close" id="btn-zoom-close">&times;</button>
+    <div class="zoom-content">
+      <img id="zoom-img" src="" alt="Foto ampliada">
+      <p id="zoom-caption" class="zoom-caption"></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoReporte • Residuos Sólidos y Muro Comunitario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+/* ==========================================================================
+   ESTILOS - ECOREPORTE (RESIDUOS SÓLIDOS & MURO COMUNITARIO)
+   ========================================================================== */
+:root {
+  --eco-green: #10b981;
+  --eco-dark: #065f46;
+  --eco-light: #ecfdf5;
+  --eco-border: #a7f3d0;
+  --amber-soft: #fef3c7;
+  --amber-text: #92400e;
+  --red-soft: #fee2e2;
+  --red-text: #991b1b;
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-family);
+  background: var(--bg-main);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  background: #ffffff;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.brand-avatar {
+  font-size: 1.6rem;
+  background: var(--eco-light);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--eco-border);
+}
+.brand-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #064e3b;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+.brand-subtitle { font-size: 0.76rem; color: var(--text-muted); }
+.nav-tabs {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  gap: 4px;
+}
+.tab-btn {
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.tab-btn:hover { color: #1e293b; }
+.tab-btn.active {
+  background: #ffffff;
+  color: #065f46;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.nav-buttons { display: flex; gap: 8px; align-items: center; }
+.view-content { display: none; flex: 1; }
+.view-content.active { display: block; }
+.btn {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: var(--radius-sm);
+}
+.btn-pill { padding: 8px 16px; border-radius: var(--radius-pill); }
+.btn-primary {
+  background: #059669; color: #ffffff;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+}
+.btn-primary:hover { background: #047857; transform: translateY(-1px); }
+.btn-secondary { background: #ffffff; color: #334155; border-color: #cbd5e1; }
+.btn-secondary:hover { background: #f1f5f9; }
+.btn-download-zip {
+  background: #4338ca; color: #ffffff;
+  box-shadow: 0 2px 6px rgba(67, 56, 202, 0.25);
+}
+.btn-download-zip:hover { background: #3730a3; transform: translateY(-1px); }
+.btn-publish {
+  background: #059669; color: #ffffff;
+  padding: 12px 20px; font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+  flex: 1; justify-content: center;
+}
+.btn-publish:hover { background: #047857; transform: translateY(-1px); }
+.form-publish-actions { display: flex; gap: 10px; margin-top: 10px; }
+.main-wrapper {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  min-height: calc(100vh - 70px);
+}
+@media (max-width: 1024px) {
+  .main-wrapper { grid-template-columns: 1fr; min-height: auto; }
+}
+.form-container {
+  background: #ffffff;
+  border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 24px;
+}
+.form-header-card {
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  padding: 14px 16px; margin-bottom: 18px;
+}
+.form-header-card h2 { font-size: 1.05rem; font-weight: 800; color: #065f46; margin-bottom: 4px; }
+.form-header-card p { font-size: 0.8rem; color: #047857; }
+.simple-form { display: flex; flex-direction: column; gap: 14px; }
+.card-input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 13px 15px; transition: all 0.2s;
+}
+.card-input:focus-within {
+  border-color: var(--eco-green);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+.input-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.84rem; font-weight: 700; color: #334155; margin-bottom: 7px;
+}
+.label-icon { font-size: 1.05rem; }
+.grid-2-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) { .grid-2-inputs { grid-template-columns: 1fr; } }
+input[type="text"], input[type="date"], textarea {
+  width: 100%; font-family: inherit; font-size: 0.88rem;
+  padding: 9px 12px; border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm); background: #ffffff;
+  color: var(--text-dark); outline: none; transition: border-color 0.2s;
+}
+input:focus, textarea:focus { border-color: var(--eco-green); }
+textarea { resize: vertical; line-height: 1.5; }
+.pills-selector { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill-option {
+  font-family: inherit; font-size: 0.77rem; font-weight: 600;
+  padding: 6px 12px; border-radius: var(--radius-pill);
+  border: 1px solid #cbd5e1; background: #ffffff; color: #475569;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.pill-option:hover { background: #f1f5f9; }
+.pill-option.active { background: #059669; color: #ffffff; border-color: #059669; }
+.pill-low.active { background: #10b981; border-color: #10b981; }
+.pill-mid.active { background: #f59e0b; border-color: #f59e0b; }
+.pill-high.active { background: #ef4444; border-color: #ef4444; }
+.highlight-box {
+  background: #ffffff; border-color: #a7f3d0;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
+}
+.upload-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.photo-badge {
+  font-size: 0.72rem; font-weight: 700; background: var(--eco-light);
+  color: var(--eco-dark); padding: 2px 8px; border-radius: var(--radius-pill);
+}
+.simple-dropzone {
+  border: 2px dashed #34d399; background: #f0fdf4;
+  border-radius: var(--radius-md); padding: 16px 12px; text-align: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.simple-dropzone:hover, .simple-dropzone.dragover { background: #dcfce7; border-color: #059669; }
+.drop-circle { font-size: 1.6rem; margin-bottom: 4px; }
+.drop-text { font-size: 0.85rem; color: #065f46; margin-bottom: 2px; }
+.drop-hint { font-size: 0.72rem; color: #64748b; }
+.photos-editor-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.photo-edit-item {
+  display: grid; grid-template-columns: 60px 1fr 30px; gap: 10px;
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-sm);
+  padding: 6px; align-items: center;
+}
+.photo-thumb {
+  width: 60px; height: 48px; border-radius: 6px; overflow: hidden; background: #cbd5e1;
+}
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.photo-edit-item input { font-size: 0.78rem; padding: 5px 8px; }
+.btn-del-photo {
+  background: transparent; border: none; font-size: 1.1rem; color: #94a3b8;
+  cursor: pointer; border-radius: 4px; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-del-photo:hover { background: #fee2e2; color: #ef4444; }
+.preview-container {
+  background: #e2e8f0; overflow-y: auto; padding: 24px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.preview-notice {
+  font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 14px;
+  background: #ffffff; padding: 6px 14px; border-radius: var(--radius-pill);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.report-card {
+  background: #ffffff; width: 100%; max-width: 740px;
+  border-radius: var(--radius-lg); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  padding: 32px 36px; display: flex; flex-direction: column; gap: 20px;
+}
+@media (max-width: 600px) { .report-card { padding: 20px 16px; } }
+.report-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
+}
+.top-nature-tag {
+  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.8px; color: #059669;
+  display: flex; align-items: center; gap: 5px;
+}
+.top-date {
+  font-size: 0.8rem; font-weight: 700; color: #64748b; background: #f1f5f9;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+}
+.report-hero {
+  display: flex; align-items: flex-start; gap: 12px; background: #f8fafc;
+  padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid #e2e8f0;
+}
+.hero-pin { font-size: 1.8rem; line-height: 1; }
+.hero-small {
+  font-size: 0.7rem; font-weight: 800; color: #64748b; letter-spacing: 0.5px; display: block;
+}
+.hero-location { font-size: 1.25rem; font-weight: 800; color: #0f172a; }
+.report-meta-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.meta-tag {
+  background: #f1f5f9; padding: 5px 12px; border-radius: var(--radius-sm);
+  font-size: 0.8rem; color: #334155; display: flex; gap: 5px; align-items: center;
+}
+.tag-label { color: #64748b; font-weight: 500; }
+.tag-urgency.urg-bajo { background: #ecfdf5; color: #065f46; }
+.tag-urgency.urg-moderado { background: #fffbeb; color: #92400e; }
+.tag-urgency.urg-urgente { background: #fef2f2; color: #991b1b; }
+.report-block { display: flex; flex-direction: column; gap: 6px; }
+.block-title {
+  font-size: 0.92rem; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 6px;
+}
+.title-bullet { font-size: 1.05rem; }
+.block-content { font-size: 0.9rem; line-height: 1.6; color: #334155; white-space: pre-wrap; }
+.gallery-head { display: flex; justify-content: space-between; align-items: center; }
+.gallery-count { font-size: 0.74rem; color: #64748b; }
+.clean-photos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 600px) { .clean-photos-grid { grid-template-columns: 1fr; } }
+.photo-sheet-card {
+  background: #ffffff; border: 1px solid #e2e8f0; border-radius: var(--radius-sm);
+  overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.photo-wrap { width: 100%; height: 180px; background: #f1f5f9; overflow: hidden; cursor: zoom-in; }
+.photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-label-box {
+  padding: 8px 10px; background: #ffffff; font-size: 0.76rem; font-weight: 600;
+  color: #334155; border-top: 1px solid #f1f5f9;
+}
+.empty-photos-box {
+  grid-column: 1 / -1; border: 2px dashed #cbd5e1; border-radius: var(--radius-md);
+  padding: 24px 16px; text-align: center; color: #64748b;
+}
+.empty-icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+.report-action-card {
+  background: #f0fdf4; border: 1px solid #86efac; border-radius: var(--radius-md);
+  padding: 12px 16px; display: flex; align-items: flex-start; gap: 10px;
+}
+.action-icon { font-size: 1.4rem; line-height: 1; }
+.action-heading {
+  font-size: 0.8rem; font-weight: 800; color: #065f46; text-transform: uppercase; margin-bottom: 2px;
+}
+.action-text { font-size: 0.88rem; color: #14532d; font-weight: 500; }
+.report-footer {
+  border-top: 1px solid #e2e8f0; padding-top: 10px; display: flex;
+  justify-content: space-between; font-size: 0.72rem; color: #94a3b8; margin-top: 8px;
+}
+.feed-wrapper {
+  max-width: 1100px; margin: 0 auto; padding: 30px 20px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.feed-header {
+  background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 24px 28px; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); flex-wrap: wrap; gap: 16px;
+}
+.feed-header-info h2 { font-size: 1.35rem; font-weight: 800; color: #064e3b; margin-bottom: 4px; }
+.feed-header-info p { font-size: 0.88rem; color: var(--text-muted); }
+.feed-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); }
+.filter-pill {
+  font-family: inherit; font-size: 0.8rem; font-weight: 600; padding: 6px 14px;
+  border-radius: var(--radius-pill); background: #ffffff; border: 1px solid #cbd5e1;
+  color: #475569; cursor: pointer; transition: all 0.15s ease;
+}
+.filter-pill:hover { background: #f1f5f9; }
+.filter-pill.active { background: #065f46; color: #ffffff; border-color: #065f46; }
+.feed-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; }
+.community-card {
+  background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05); display: flex;
+  flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;
+}
+.community-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); }
+.card-top {
+  padding: 16px 18px 12px 18px; display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 10px;
+}
+.card-loc-area { display: flex; align-items: flex-start; gap: 8px; }
+.card-loc-icon { font-size: 1.3rem; line-height: 1; }
+.card-loc-title { font-size: 1rem; font-weight: 800; color: #0f172a; line-height: 1.3; }
+.card-reporter-info { font-size: 0.74rem; color: #64748b; margin-top: 2px; }
+.card-badges { padding: 0 18px 10px 18px; display: flex; gap: 6px; flex-wrap: wrap; }
+.badge-res {
+  font-size: 0.72rem; font-weight: 700; padding: 3px 9px;
+  border-radius: var(--radius-pill); background: #f1f5f9; color: #334155;
+}
+.badge-urg { font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: var(--radius-pill); }
+.card-photo-slider {
+  position: relative; width: 100%; height: 200px; background: #0f172a;
+  overflow: hidden; cursor: zoom-in;
+}
+.card-photo-slider img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-photo-badge {
+  position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.75);
+  color: #ffffff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-pill);
+}
+.card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.card-desc { font-size: 0.88rem; line-height: 1.5; color: #334155; }
+.card-action-box {
+  background: #f0fdf4; border-left: 3px solid #10b981; padding: 8px 12px;
+  border-radius: 4px; font-size: 0.8rem; color: #065f46;
+}
+.card-action-box strong { display: block; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 2px; }
+.comments-section {
+  border-top: 1px solid #f1f5f9; padding: 14px 18px; background: #f8fafc;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.comments-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.8rem; font-weight: 700; color: #475569;
+}
+.comments-list { display: flex; flex-direction: column; gap: 8px; max-height: 160px; overflow-y: auto; }
+.comment-bubble {
+  background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;
+  padding: 8px 10px; font-size: 0.8rem;
+}
+.comment-bubble-author { font-weight: 700; color: #065f46; margin-right: 4px; }
+.comment-bubble-text { color: #334155; }
+.comment-bubble-time { font-size: 0.68rem; color: #94a3b8; display: block; margin-top: 2px; text-align: right; }
+.no-comments-yet { font-size: 0.75rem; color: #94a3b8; font-style: italic; text-align: center; padding: 6px 0; }
+.add-comment-box { display: flex; gap: 6px; margin-top: 4px; }
+.input-quick-comment { flex: 1; font-size: 0.8rem !important; padding: 6px 10px !important; border-radius: var(--radius-pill) !important; }
+.btn-send-comment {
+  background: #059669; color: #ffffff; border: none; font-size: 0.78rem;
+  font-weight: 700; padding: 6px 12px; border-radius: var(--radius-pill);
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-send-comment:hover { background: #047857; }
+.card-bottom-actions {
+  padding: 10px 18px 14px 18px; background: #f8fafc; border-top: 1px solid #f1f5f9;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.btn-card-load {
+  font-size: 0.78rem; font-weight: 700; color: #059669; background: transparent;
+  border: none; cursor: pointer; text-decoration: underline;
+}
+.btn-card-load:hover { color: #047857; }
+.image-zoom-overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: none;
+  align-items: center; justify-content: center; z-index: 100; padding: 20px;
+}
+.image-zoom-overlay.show { display: flex; }
+.zoom-content { max-width: 90vw; max-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+.zoom-content img { max-width: 100%; max-height: 75vh; border-radius: 8px; object-fit: contain; }
+.zoom-caption { color: #ffffff; margin-top: 10px; font-size: 0.95rem; }
+.zoom-close {
+  position: absolute; top: 18px; right: 22px; font-size: 2rem; color: #ffffff;
+  background: transparent; border: none; cursor: pointer;
+}
+@media print {
+  @page { size: portrait; margin: 12mm; }
+  body { background: #ffffff !important; }
+  .no-print, .navbar, .form-container, .preview-notice, .image-zoom-overlay, #view-feed { display: none !important; }
+  #view-create { display: block !important; }
+  .main-wrapper { display: block !important; min-height: auto !important; }
+  .preview-container { background: transparent !important; padding: 0 !important; display: block !important; }
+  .report-card { box-shadow: none !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
+  .photo-sheet-card { page-break-inside: avoid !important; break-inside: avoid !important; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR CON PESTAÑAS Y BOTÓN DE DESCARGA DIRECTA -->
+  <header class="navbar no-print">
+    <div class="nav-brand">
+      <div class="brand-avatar">🌱</div>
+      <div>
+        <h1 class="brand-title">EcoReporte</h1>
+        <p class="brand-subtitle">Gestión comunitaria de residuos sólidos</p>
+      </div>
+    </div>
+
+    <!-- PESTAÑAS -->
+    <nav class="nav-tabs">
+      <button id="tab-btn-create" class="tab-btn active">
+        ✏️ Crear Reporte
+      </button>
+      <button id="tab-btn-feed" class="tab-btn">
+        💬 Muro y Comentarios (<span id="badge-total-reports">3</span>)
+      </button>
+    </nav>
+
+    <!-- ACCIONES -->
+    <div class="nav-buttons">
+      <button id="btn-example" class="btn btn-pill btn-secondary" title="Cargar reporte de demostración">
+        ✨ Ejemplo
+      </button>
+      <button id="btn-download-html" class="btn btn-pill btn-download-zip" title="Descargar este archivo listo para mandar por WhatsApp o correo">
+        💾 Descargar Archivo para Enviar
+      </button>
+      <button id="btn-print" class="btn btn-pill btn-primary" title="Generar PDF o imprimir">
+        📄 PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- VISTA 1: CREAR REPORTE -->
+  <div id="view-create" class="view-content active">
+    <main class="main-wrapper">
+      <section class="form-container no-print">
+        <div class="form-header-card">
+          <h2>📝 Nuevo Reporte de Residuos</h2>
+          <p>Llena los datos del lugar y adjunta fotos. Luego puedes publicarlo en el muro o descargarlo en PDF.</p>
+        </div>
+
+        <form id="waste-form" class="simple-form" onsubmit="event.preventDefault();">
+          <div class="card-input">
+            <label for="inp-location" class="input-label">
+              <span class="label-icon">📍</span> ¿Dónde se ubica? (Lugar o Sector)
+            </label>
+            <input type="text" id="inp-location" placeholder="Ej. Parque Los Pinos - Esquina con Calle 4" required>
+          </div>
+
+          <div class="grid-2-inputs">
+            <div class="card-input">
+              <label for="inp-reporter" class="input-label">
+                <span class="label-icon">👤</span> Tu nombre o colectivo
+              </label>
+              <input type="text" id="inp-reporter" placeholder="Ej. Vecinos Sector 3 / María G.">
+            </div>
+
+            <div class="card-input">
+              <label for="inp-date" class="input-label">
+                <span class="label-icon">📅</span> Fecha
+              </label>
+              <input type="date" id="inp-date">
+            </div>
+          </div>
+
+          <div class="card-input">
+            <label class="input-label">
+              <span class="label-icon">♻️</span> Tipo de residuo principal
+            </label>
+            <div class="pills-selector" id="waste-type-pills">
+              <button type="button" class="pill-option active" data-val="Plásticos y Envases">🥤 Plásticos y Botellas</button>
+              <button type="button" class="pill-option" data-val="Restos Orgánicos">🍂 Orgánicos / Poda</button>
+              <button type="button" class="pill-option" data-val="Basura Mixta">🗑️ Basura Mixta</button>
+              <button type="button" class="pill-option" data-val="Escombros y Desmonte">🧱 Escombros / Muebles</button>
+              <button type="button" class="pill-option" data-val="Punto Crítico">⚠️ Microbasural Ilegal</button>
+            </div>
+          </div>
+
+          <div class="card-input">
+            <label class="input-label">
+              <span class="label-icon">🚨</span> Nivel de acumulación
+            </label>
+            <div class="pills-selector" id="urgency-pills">
+              <button type="button" class="pill-option pill-low" data-val="Bajo">🟢 Leve</button>
+              <button type="button" class="pill-option pill-mid active" data-val="Moderado">🟡 Moderado</button>
+              <button type="button" class="pill-option pill-high" data-val="Urgente">🔴 Urgente</button>
+            </div>
+          </div>
+
+          <div class="card-input highlight-box">
+            <div class="upload-head">
+              <label class="input-label">
+                <span class="label-icon">📸</span> Fotos del lugar
+              </label>
+              <span class="photo-badge" id="photo-count-badge">0 fotos</span>
+            </div>
+
+            <div class="simple-dropzone" id="dropzone">
+              <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+              <div class="drop-circle">📷</div>
+              <p class="drop-text"><strong>Haz clic para subir fotos</strong> o arrástralas aquí</p>
+              <span class="drop-hint">Puedes añadir una o varias imágenes de celular</span>
+            </div>
+
+            <div class="photos-editor-list" id="photos-editor-list"></div>
+          </div>
+
+          <div class="card-input">
+            <label for="inp-description" class="input-label">
+              <span class="label-icon">💬</span> Comentario o descripción
+            </label>
+            <textarea id="inp-description" rows="3" placeholder="¿Qué observas? Ej. Gran acumulación de bolsas rotas que despiden malos olores y tapan la vereda."></textarea>
+          </div>
+
+          <div class="card-input">
+            <label for="inp-solution" class="input-label">
+              <span class="label-icon">🧹</span> Acción sugerida
+            </label>
+            <input type="text" id="inp-solution" placeholder="Ej. Campaña de recojo vecinal y solicitar contenedor con tapa">
+          </div>
+
+          <div class="form-publish-actions">
+            <button type="button" id="btn-publish-wall" class="btn btn-publish">
+              📢 Publicar en el Muro Comunitario
+            </button>
+            <button type="button" id="btn-new" class="btn btn-secondary">
+              Limpiar
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- VISTA PREVIA LIMPIA -->
+      <section class="preview-container">
+        <div class="preview-notice no-print">
+          <span>👁️ Vista en tiempo real de tu reporte (Formato imprimible):</span>
+        </div>
+
+        <article class="report-card" id="report-card">
+          <div class="report-topbar">
+            <div class="top-nature-tag">
+              <span class="leaf-icon">🌿</span> FICHA DE REPORTE: RESIDUOS SÓLIDOS
+            </div>
+            <div class="top-date" id="pv-date">06/10/2026</div>
+          </div>
+
+          <div class="report-hero">
+            <div class="hero-pin">📍</div>
+            <div class="hero-text">
+              <span class="hero-small">UBICACIÓN:</span>
+              <h2 class="hero-location" id="pv-location">Indica el lugar en el formulario</h2>
+            </div>
+          </div>
+
+          <div class="report-meta-tags">
+            <div class="meta-tag tag-type">
+              <span class="tag-label">Residuo:</span>
+              <strong id="pv-type">Plásticos y Envases</strong>
+            </div>
+            <div class="meta-tag tag-urgency" id="pv-urgency-wrapper">
+              <span class="tag-label">Urgencia:</span>
+              <strong id="pv-urgency">Moderado</strong>
+            </div>
+            <div class="meta-tag tag-reporter">
+              <span class="tag-label">Reportado por:</span>
+              <strong id="pv-reporter">Comunidad Local</strong>
+            </div>
+          </div>
+
+          <div class="report-block">
+            <h3 class="block-title">
+              <span class="title-bullet">👀</span> Situación Observada
+            </h3>
+            <p class="block-content" id="pv-description">
+              Describe en el panel izquierdo lo que observas para verlo reflejado aquí.
+            </p>
+          </div>
+
+          <div class="report-block">
+            <div class="gallery-head">
+              <h3 class="block-title">
+                <span class="title-bullet">📷</span> Registro Fotográfico
+              </h3>
+              <span class="gallery-count" id="pv-photo-count">0 fotos</span>
+            </div>
+
+            <div class="clean-photos-grid" id="pv-photos-grid">
+              <div class="empty-photos-box">
+                <span class="empty-icon">🍃</span>
+                <p>Aún no has agregado fotos.</p>
+                <small>Sube fotos en el panel izquierdo para verlas aquí.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-action-card" id="pv-solution-box">
+            <div class="action-icon">💡</div>
+            <div>
+              <div class="action-heading">Acción Recomendada / Solución:</div>
+              <p class="action-text" id="pv-solution">Coordinar limpieza o colocación de contenedores adecuados.</p>
+            </div>
+          </div>
+
+          <div class="report-footer">
+            <span>🌱 Cuidemos nuestro entorno • EcoReporte</span>
+            <span id="pv-time-now">Hoy</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- VISTA 2: MURO COMUNITARIO -->
+  <div id="view-feed" class="view-content no-print">
+    <section class="feed-wrapper">
+      <div class="feed-header">
+        <div class="feed-header-info">
+          <h2>💬 Muro Comunitario de Reportes y Comentarios</h2>
+          <p>Revisa lo que otros vecinos y voluntarios han reportado, añade comentarios o visualiza las fotos de cada lugar.</p>
+        </div>
+        <button id="btn-go-create" class="btn btn-pill btn-primary">
+          ➕ Publicar un Nuevo Reporte
+        </button>
+      </div>
+
+      <div class="feed-filters">
+        <span class="filter-label">Filtrar por:</span>
+        <button class="filter-pill active" data-filter="todos">Todos (<span id="filter-count-all">0</span>)</button>
+        <button class="filter-pill" data-filter="Plásticos y Envases">🥤 Plásticos</button>
+        <button class="filter-pill" data-filter="Punto Crítico">⚠️ Puntos Críticos</button>
+        <button class="filter-pill" data-filter="Restos Orgánicos">🍂 Orgánicos</button>
+        <button class="filter-pill" data-filter="Basura Mixta">🗑️ Basura Mixta</button>
+      </div>
+
+      <div class="feed-cards-grid" id="feed-cards-container"></div>
+    </section>
+  </div>
+
+  <!-- ZOOM MODAL -->
+  <div class="image-zoom-overlay" id="image-zoom">
+    <button class="zoom-close" id="btn-zoom-close">&times;</button>
+    <div class="zoom-content">
+      <img id="zoom-img" src="" alt="Foto ampliada">
+      <p id="zoom-caption" class="zoom-caption"></p>
+    </div>
+  </div>
+
+  <!-- LÓGICA JAVASCRIPT INCLUIDA -->
+  <script>
+const state = {
+  activeView: 'create',
+  currentFilter: 'todos',
+  currentReport: {
+    location: '',
+    reporter: '',
+    date: '',
+    wasteType: 'Plásticos y Envases',
+    urgency: 'Moderado',
+    description: '',
+    solution: '',
+    images: []
+  },
+  communityReports: []
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupDefaultDate();
+  setupPills();
+  setupInputs();
+  setupDropzone();
+  setupNavigation();
+  setupActions();
+  loadCommunityReports();
+  updateLivePreview();
+  renderCommunityFeed();
+});
+
+function setupDefaultDate() {
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('inp-date');
+  if (dateInput) {
+    dateInput.value = today;
+    state.currentReport.date = today;
+  }
+}
+
+function setupNavigation() {
+  const tabCreate = document.getElementById('tab-btn-create');
+  const tabFeed = document.getElementById('tab-btn-feed');
+  const btnGoCreate = document.getElementById('btn-go-create');
+
+  tabCreate.addEventListener('click', () => switchView('create'));
+  tabFeed.addEventListener('click', () => switchView('feed'));
+  if (btnGoCreate) btnGoCreate.addEventListener('click', () => switchView('create'));
+
+  const filterPills = document.querySelectorAll('.feed-filters .filter-pill');
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.currentFilter = pill.getAttribute('data-filter');
+      renderCommunityFeed();
+    });
+  });
+}
+
+function switchView(viewName) {
+  state.activeView = viewName;
+  const viewCreate = document.getElementById('view-create');
+  const viewFeed = document.getElementById('view-feed');
+  const tabCreate = document.getElementById('tab-btn-create');
+  const tabFeed = document.getElementById('tab-btn-feed');
+
+  if (viewName === 'create') {
+    viewCreate.classList.add('active');
+    viewFeed.classList.remove('active');
+    tabCreate.classList.add('active');
+    tabFeed.classList.remove('active');
+  } else {
+    viewCreate.classList.remove('active');
+    viewFeed.classList.add('active');
+    tabCreate.classList.remove('active');
+    tabFeed.classList.add('active');
+    renderCommunityFeed();
+  }
+}
+
+function setupPills() {
+  const wastePills = document.querySelectorAll('#waste-type-pills .pill-option');
+  wastePills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      wastePills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.currentReport.wasteType = pill.getAttribute('data-val');
+      updateLivePreview();
+    });
+  });
+
+  const urgencyPills = document.querySelectorAll('#urgency-pills .pill-option');
+  urgencyPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      urgencyPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.currentReport.urgency = pill.getAttribute('data-val');
+      updateLivePreview();
+    });
+  });
+}
+
+function setupInputs() {
+  const bindings = [
+    { id: 'inp-location', key: 'location' },
+    { id: 'inp-reporter', key: 'reporter' },
+    { id: 'inp-date', key: 'date' },
+    { id: 'inp-description', key: 'description' },
+    { id: 'inp-solution', key: 'solution' }
+  ];
+
+  bindings.forEach(({ id, key }) => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('input', (e) => {
+        state.currentReport[key] = e.target.value;
+        updateLivePreview();
+      });
+    }
+  });
+}
+
+function setupActions() {
+  document.getElementById('btn-print').addEventListener('click', () => {
+    if (state.activeView !== 'create') switchView('create');
+    setTimeout(() => window.print(), 100);
+  });
+
+  document.getElementById('btn-example').addEventListener('click', () => {
+    if (state.activeView !== 'create') switchView('create');
+    loadWasteExample();
+  });
+
+  document.getElementById('btn-new').addEventListener('click', resetCurrentReport);
+  document.getElementById('btn-publish-wall').addEventListener('click', publishReportToWall);
+
+  // BOTÓN DE DESCARGA DIRECTA DE ESTE ARCHIVO
+  const btnDownload = document.getElementById('btn-download-html');
+  if (btnDownload) {
+    btnDownload.addEventListener('click', () => {
+      const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'EcoReporte-Residuos-Solidos.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      alert('✅ ¡Archivo "EcoReporte-Residuos-Solidos.html" descargado a tu carpeta de Descargas!\n\nYa puedes adjuntarlo por WhatsApp, correo o Telegram.');
+    });
+  }
+
+  const zoomModal = document.getElementById('image-zoom');
+  document.getElementById('btn-zoom-close').addEventListener('click', () => zoomModal.classList.remove('show'));
+  zoomModal.addEventListener('click', (e) => {
+    if (e.target === zoomModal) zoomModal.classList.remove('show');
+  });
+}
+
+function setupDropzone() {
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('file-input');
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files) {
+      handleFiles(Array.from(e.target.files));
+      fileInput.value = '';
+    }
+  });
+
+  ['dragenter', 'dragover'].forEach(name => {
+    dropzone.addEventListener(name, (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(name => {
+    dropzone.addEventListener(name, (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    if (e.dataTransfer && e.dataTransfer.files) {
+      handleFiles(Array.from(e.dataTransfer.files));
+    }
+  });
+}
+
+function handleFiles(files) {
+  const valid = files.filter(f => f.type.startsWith('image/'));
+  valid.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => compressAndAddImage(e.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+function compressAndAddImage(dataUrl) {
+  const img = new Image();
+  img.onload = () => {
+    const max = 1200;
+    let w = img.width, h = img.height;
+    if (w > max || h > max) {
+      if (w > h) { h = Math.round((h * max) / w); w = max; }
+      else { w = Math.round((w * max) / h); h = max; }
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    const optimized = canvas.toDataURL('image/jpeg', 0.85);
+
+    state.currentReport.images.push({
+      id: 'img_' + Math.random().toString(36).substr(2, 6),
+      dataUrl: optimized,
+      caption: `Foto ${state.currentReport.images.length + 1}: Evidencia en el punto`
+    });
+
+    renderPhotosEditor();
+    updateLivePreview();
+  };
+  img.src = dataUrl;
+}
+
+function renderPhotosEditor() {
+  const container = document.getElementById('photos-editor-list');
+  const countBadge = document.getElementById('photo-count-badge');
+  container.innerHTML = '';
+  countBadge.textContent = `${state.currentReport.images.length} fotos`;
+
+  state.currentReport.images.forEach((img, idx) => {
+    const item = document.createElement('div');
+    item.className = 'photo-edit-item';
+    item.innerHTML = `
+      <div class="photo-thumb"><img src="${img.dataUrl}" alt="Foto ${idx + 1}"></div>
+      <input type="text" class="inp-caption" value="${escapeHtml(img.caption)}" placeholder="Nota sobre la foto...">
+      <button type="button" class="btn-del-photo" title="Eliminar">&times;</button>
+    `;
+    item.querySelector('.inp-caption').addEventListener('input', (e) => {
+      img.caption = e.target.value;
+      updateLivePreview();
+    });
+    item.querySelector('.btn-del-photo').addEventListener('click', () => {
+      state.currentReport.images.splice(idx, 1);
+      renderPhotosEditor();
+      updateLivePreview();
+    });
+    container.appendChild(item);
+  });
+}
+
+function updateLivePreview() {
+  const r = state.currentReport;
+  setText('pv-location', r.location || 'Indica el lugar o sector en el formulario');
+  setText('pv-reporter', r.reporter || 'Comunidad / Vecinos');
+  if (r.date) {
+    const p = r.date.split('-');
+    setText('pv-date', p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : r.date);
+  } else setText('pv-date', 'Sin fecha');
+  setText('pv-type', r.wasteType);
+
+  const urgEl = document.getElementById('pv-urgency');
+  const urgWrapper = document.getElementById('pv-urgency-wrapper');
+  if (urgEl && urgWrapper) {
+    urgEl.textContent = r.urgency;
+    urgWrapper.className = 'meta-tag tag-urgency ' + getUrgencyClass(r.urgency);
+  }
+  setText('pv-description', r.description || 'Describe aquí brevemente qué observas en el lugar para verlo reflejado en este reporte.');
+  setText('pv-solution', r.solution || 'Coordinar jornada de retiro o solicitar contenedores adecuados.');
+  renderPreviewPhotos();
+}
+
+function getUrgencyClass(urg) {
+  if (urg === 'Bajo') return 'urg-bajo';
+  if (urg === 'Urgente') return 'urg-urgente';
+  return 'urg-moderado';
+}
+
+function renderPreviewPhotos() {
+  const grid = document.getElementById('pv-photos-grid');
+  const countSpan = document.getElementById('pv-photo-count');
+  countSpan.textContent = `${state.currentReport.images.length} fotos`;
+
+  if (state.currentReport.images.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-photos-box">
+        <span class="empty-icon">🍃</span>
+        <p>Aún no has agregado fotos.</p>
+        <small>Sube fotos desde el panel izquierdo para verlas aquí.</small>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = '';
+  state.currentReport.images.forEach((img, idx) => {
+    const card = document.createElement('div');
+    card.className = 'photo-sheet-card';
+    card.innerHTML = `
+      <div class="photo-wrap" title="Clic para ampliar"><img src="${img.dataUrl}" alt="Foto ${idx + 1}"></div>
+      <div class="photo-label-box">${escapeHtml(img.caption || `Foto ${idx + 1}`)}</div>
+    `;
+    card.querySelector('.photo-wrap').addEventListener('click', () => openZoom(img.dataUrl, img.caption));
+    grid.appendChild(card);
+  });
+}
+
+function openZoom(src, caption) {
+  const modal = document.getElementById('image-zoom');
+  document.getElementById('zoom-img').src = src;
+  document.getElementById('zoom-caption').textContent = caption || '';
+  modal.classList.add('show');
+}
+
+function publishReportToWall() {
+  const r = state.currentReport;
+  if (!r.location.trim()) {
+    alert('Por favor escribe al menos el lugar o sector donde se ubica el problema.');
+    document.getElementById('inp-location').focus();
+    return;
+  }
+  const newPost = {
+    id: 'post_' + Date.now(),
+    location: r.location,
+    reporter: r.reporter || 'Vecino anónimo',
+    date: r.date || new Date().toISOString().split('T')[0],
+    wasteType: r.wasteType,
+    urgency: r.urgency,
+    description: r.description || 'Sin descripción adicional.',
+    solution: r.solution || 'Pendiente de coordinación con el equipo vecinal.',
+    images: JSON.parse(JSON.stringify(r.images)),
+    comments: [
+      { id: 'c_init', author: 'Sistema EcoReporte', text: 'Reporte registrado y visible para la comunidad.', time: 'Hace un momento' }
+    ]
+  };
+  state.communityReports.unshift(newPost);
+  saveCommunityReports();
+  alert('🎉 ¡Tu reporte ha sido publicado con éxito en el Muro Comunitario!');
+  switchView('feed');
+}
+
+function loadCommunityReports() {
+  const saved = localStorage.getItem('ecoreporte_community_posts');
+  if (saved) {
+    try { state.communityReports = JSON.parse(saved); }
+    catch { state.communityReports = getDefaultCommunityPosts(); }
+  } else {
+    state.communityReports = getDefaultCommunityPosts();
+    saveCommunityReports();
+  }
+  updateBadgeCounts();
+}
+
+function saveCommunityReports() {
+  try { localStorage.setItem('ecoreporte_community_posts', JSON.stringify(state.communityReports)); }
+  catch (e) { console.warn(e); }
+  updateBadgeCounts();
+}
+
+function updateBadgeCounts() {
+  const total = state.communityReports.length;
+  const b1 = document.getElementById('badge-total-reports');
+  const b2 = document.getElementById('filter-count-all');
+  if (b1) b1.textContent = total;
+  if (b2) b2.textContent = total;
+}
+
+function renderCommunityFeed() {
+  const container = document.getElementById('feed-cards-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  let list = state.communityReports;
+  if (state.currentFilter !== 'todos') {
+    list = list.filter(item => item.wasteType === state.currentFilter);
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 16px; border: 1px dashed #cbd5e1;">
+        <span style="font-size: 2.2rem; display: block; margin-bottom: 8px;">🌱</span>
+        <h3 style="color: #065f46; margin-bottom: 6px;">No hay reportes en esta categoría</h3>
+      </div>`;
+    return;
+  }
+
+  list.forEach(post => {
+    const card = document.createElement('article');
+    card.className = 'community-card';
+
+    let photoHtml = '';
+    if (post.images && post.images.length > 0) {
+      photoHtml = `
+        <div class="card-photo-slider" title="Clic para ampliar foto">
+          <img src="${post.images[0].dataUrl}" alt="${escapeHtml(post.location)}">
+          <span class="card-photo-badge">📷 ${post.images.length} fotos</span>
+        </div>`;
+    }
+
+    let commentsHtml = '';
+    if (post.comments && post.comments.length > 0) {
+      commentsHtml = post.comments.map(c => `
+        <div class="comment-bubble">
+          <div><span class="comment-bubble-author">${escapeHtml(c.author)}:</span><span class="comment-bubble-text">${escapeHtml(c.text)}</span></div>
+          <span class="comment-bubble-time">${escapeHtml(c.time || 'Reciente')}</span>
+        </div>`).join('');
+    } else {
+      commentsHtml = '<p class="no-comments-yet">Aún no hay comentarios. ¡Sé el primero en responder!</p>';
+    }
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-loc-area">
+          <span class="card-loc-icon">📍</span>
+          <div>
+            <h3 class="card-loc-title">${escapeHtml(post.location)}</h3>
+            <p class="card-reporter-info">Por: <strong>${escapeHtml(post.reporter)}</strong> • ${escapeHtml(post.date)}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <span class="badge-res">${escapeHtml(post.wasteType)}</span>
+        <span class="badge-urg meta-tag tag-urgency ${getUrgencyClass(post.urgency)}">${escapeHtml(post.urgency)}</span>
+      </div>
+      ${photoHtml}
+      <div class="card-body">
+        <p class="card-desc">${escapeHtml(post.description)}</p>
+        ${post.solution ? `<div class="card-action-box"><strong>Solución o Acción:</strong>${escapeHtml(post.solution)}</div>` : ''}
+      </div>
+      <div class="comments-section">
+        <div class="comments-header"><span>💬 Comentarios (${post.comments ? post.comments.length : 0})</span></div>
+        <div class="comments-list">${commentsHtml}</div>
+        <div class="add-comment-box">
+          <input type="text" class="input-quick-comment" placeholder="Escribe un comentario...">
+          <button type="button" class="btn-send-comment">Comentar</button>
+        </div>
+      </div>
+      <div class="card-bottom-actions">
+        <button type="button" class="btn-card-load">📄 Ver reporte en ficha / Imprimir</button>
+      </div>`;
+
+    if (post.images && post.images.length > 0) {
+      card.querySelector('.card-photo-slider').addEventListener('click', () => {
+        openZoom(post.images[0].dataUrl, post.images[0].caption || post.location);
+      });
+    }
+
+    const inputComment = card.querySelector('.input-quick-comment');
+    const btnComment = card.querySelector('.btn-send-comment');
+    const handleComment = () => {
+      const val = inputComment.value.trim();
+      if (!val) return;
+      if (!post.comments) post.comments = [];
+      post.comments.push({ id: 'c_' + Date.now(), author: 'Vecino participante', text: val, time: 'Justo ahora' });
+      saveCommunityReports();
+      renderCommunityFeed();
+    };
+    btnComment.addEventListener('click', handleComment);
+    inputComment.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleComment(); });
+
+    card.querySelector('.btn-card-load').addEventListener('click', () => {
+      loadPostIntoEditor(post);
+      switchView('create');
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function loadPostIntoEditor(post) {
+  state.currentReport = {
+    location: post.location,
+    reporter: post.reporter,
+    date: post.date,
+    wasteType: post.wasteType,
+    urgency: post.urgency,
+    description: post.description,
+    solution: post.solution,
+    images: JSON.parse(JSON.stringify(post.images || []))
+  };
+  document.getElementById('inp-location').value = post.location;
+  document.getElementById('inp-reporter').value = post.reporter;
+  document.getElementById('inp-date').value = post.date;
+  document.getElementById('inp-description').value = post.description;
+  document.getElementById('inp-solution').value = post.solution;
+
+  activatePill('#waste-type-pills', post.wasteType);
+  activatePill('#urgency-pills', post.urgency);
+  renderPhotosEditor();
+  updateLivePreview();
+}
+
+function activatePill(sel, val) {
+  document.querySelectorAll(`${sel} .pill-option`).forEach(p => {
+    if (p.getAttribute('data-val') === val) p.classList.add('active');
+    else p.classList.remove('active');
+  });
+}
+
+function resetCurrentReport() {
+  if (!confirm('¿Deseas limpiar el formulario?')) return;
+  state.currentReport = {
+    location: '', reporter: '', date: '', wasteType: 'Plásticos y Envases',
+    urgency: 'Moderado', description: '', solution: '', images: []
+  };
+  document.getElementById('inp-location').value = '';
+  document.getElementById('inp-reporter').value = '';
+  document.getElementById('inp-description').value = '';
+  document.getElementById('inp-solution').value = '';
+  setupDefaultDate();
+  renderPhotosEditor();
+  updateLivePreview();
+}
+
+function loadWasteExample() {
+  const f1 = createWasteCanvasPhoto('BOTELLAS PLÁSTICAS ACUMULADAS', 'Borde del parque', '#3b82f6', 'botellas');
+  const f2 = createWasteCanvasPhoto('CONTENEDOR DESBORDADO', 'Falta de recojo', '#f59e0b', 'contenedor');
+  state.currentReport = {
+    location: 'Parque El Roble - Cruce con Pasaje Los Sauces',
+    reporter: 'Comité de Vecinos y Voluntariado Verde',
+    wasteType: 'Plásticos y Envases',
+    urgency: 'Moderado',
+    date: new Date().toISOString().split('T')[0],
+    description: 'Acumulación de botellas PET, vasos descartables y bolsas plásticas al costado del área de juegos.',
+    solution: 'Organizar jornada vecinal este sábado y solicitar un contenedor diferenciado con tapa.',
+    images: [
+      { id: 'img_ex1', dataUrl: f1, caption: 'Foto 1: Acumulación cerca a juegos' },
+      { id: 'img_ex2', dataUrl: f2, caption: 'Foto 2: Tacho desbordado' }
+    ]
+  };
+  document.getElementById('inp-location').value = state.currentReport.location;
+  document.getElementById('inp-reporter').value = state.currentReport.reporter;
+  document.getElementById('inp-date').value = state.currentReport.date;
+  document.getElementById('inp-description').value = state.currentReport.description;
+  document.getElementById('inp-solution').value = state.currentReport.solution;
+  activatePill('#waste-type-pills', state.currentReport.wasteType);
+  activatePill('#urgency-pills', state.currentReport.urgency);
+  renderPhotosEditor();
+  updateLivePreview();
+}
+
+function getDefaultCommunityPosts() {
+  const fBotellas = createWasteCanvasPhoto('PLÁSTICOS EN ÁREA VERDE', 'Parque Los Pinos', '#38bdf8', 'botellas');
+  const fDesmonte = createWasteCanvasPhoto('DESMONTE Y ESCOMBROS', 'Canal Norte', '#f97316', 'contenedor');
+  const fColegio = createWasteCanvasPhoto('PUNTO LIMPIO RECUPERADO', 'Colegio San Martín', '#10b981', 'botellas');
+
+  return [
+    {
+      id: 'post_1',
+      location: 'Parque Los Pinos - Esquina con Calle 4',
+      reporter: 'Doña Rosa (Vecina Sector 3)',
+      date: '05/10/2026',
+      wasteType: 'Plásticos y Envases',
+      urgency: 'Moderado',
+      description: 'Acumulación recurrente de botellas descartables y envases de comida al lado de las bancas.',
+      solution: 'Jornada vecinal este sábado a las 9:00 AM para recoger y colocar un tacho con candado.',
+      images: [{ id: 'p1_img1', dataUrl: fBotellas, caption: 'Evidencia: Botellas y vasos esparcidos' }],
+      comments: [
+        { id: 'c1', author: 'Vecina Rosa', text: '¡Vecinos, nos reunimos este sábado a las 9am!', time: 'Ayer, 4:15 PM' },
+        { id: 'c2', author: 'Carlos (Voluntario)', text: 'Yo llevaré 10 bolsas de basura grandes.', time: 'Ayer, 5:30 PM' }
+      ]
+    },
+    {
+      id: 'post_2',
+      location: 'Ribera del Canal Norte - Puente Peatonal',
+      reporter: 'Brigada Ambientalista Juvenil',
+      date: '04/10/2026',
+      wasteType: 'Punto Crítico',
+      urgency: 'Urgente',
+      description: 'Microbasural clandestino con desmonte de construcción que amenaza con bloquear el canal.',
+      solution: 'Se requiere maquinaria o camión para trasladar el desmonte.',
+      images: [{ id: 'p2_img1', dataUrl: fDesmonte, caption: 'Evidencia: Escombros cerca al agua' }],
+      comments: [
+        { id: 'c4', author: 'Mariana T.', text: 'Es peligroso si llueve, se desbordará el canal.', time: 'Hace 2 días' },
+        { id: 'c5', author: 'Ing. Pedro M.', text: 'Ya envié solicitud para que envíen el camión esta semana.', time: 'Ayer, 11:00 AM' }
+      ]
+    },
+    {
+      id: 'post_3',
+      location: 'Colegio San Martín - Puerta Posterior',
+      reporter: 'Profesor Luis y Alumnos',
+      date: '02/10/2026',
+      wasteType: 'Plásticos y Envases',
+      urgency: 'Bajo',
+      description: 'Instalación exitosa de 3 tachos clasificadores de plástico y papel.',
+      solution: 'Monitorear durante la entrada y salida escolar.',
+      images: [{ id: 'p3_img1', dataUrl: fColegio, caption: 'Evidencia: Tachos señalizados' }],
+      comments: [
+        { id: 'c6', author: 'Mamá de Mateo', text: '¡Excelente iniciativa de los alumnos!', time: 'Hace 4 días' }
+      ]
+    }
+  ];
+}
+
+function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function createWasteCanvasPhoto(title, sub, color, type) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 700; canvas.height = 480;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, 700, 480);
+  const grad = ctx.createLinearGradient(0, 0, 0, 480);
+  grad.addColorStop(0, '#1e293b'); grad.addColorStop(1, '#0f172a');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 700, 480);
+
+  ctx.save();
+  ctx.translate(350, 210);
+  if (type === 'botellas') {
+    for (let i = -2; i <= 2; i++) {
+      ctx.save();
+      ctx.translate(i * 65, (i % 2) * 20);
+      ctx.rotate((i * 18 * Math.PI) / 180);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.roundRect(-20, -50, 40, 90, 8);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = color; ctx.fillRect(-10, -70, 20, 20);
+      ctx.restore();
+    }
+  } else {
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.moveTo(-70, -60); ctx.lineTo(70, -60); ctx.lineTo(55, 90); ctx.lineTo(-55, 90); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(0, 15, 30, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath(); ctx.arc(-25, -75, 20, 0, Math.PI * 2); ctx.arc(20, -80, 25, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)'; ctx.fillRect(0, 380, 700, 100);
+  ctx.fillStyle = color; ctx.fillRect(0, 376, 700, 4);
+  ctx.fillStyle = '#f8fafc'; ctx.font = 'bold 20px system-ui, sans-serif'; ctx.fillText(title, 24, 418);
+  ctx.fillStyle = '#94a3b8'; ctx.font = '14px system-ui, sans-serif'; ctx.fillText(sub, 24, 448);
+  ctx.fillStyle = '#10b981'; ctx.font = 'bold 12px system-ui, sans-serif'; ctx.fillText('🌿 EVIDENCIA DE CAMPO • RESIDUOS SÓLIDOS', 24, 35);
+
+  return canvas.toDataURL('image/jpeg', 0.85);
+}
+  </script>
+</body>
+</html>
