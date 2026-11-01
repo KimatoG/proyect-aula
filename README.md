@@ -1,4 +1,4 @@
-# EcoReporte • Reportes Comunitarios de Residuos Sólidos con Imágenes
+# EcoAlecta • Reportes Comunitarios de Residuos Sólidos con Imágenes
 
 Aplicación web simple, intuitiva y colaborativa diseñada para proyectos ambientales de residuos sólidos. Permite registrar puntos de acumulación con fotografías, revisar comentarios de otros vecinos y generar fichas limpias en PDF.
 

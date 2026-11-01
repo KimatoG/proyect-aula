@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoReporte • Residuos Sólidos y Muro Comunitario</title>
+  <title>EcoAlecta • Residuos Sólidos y Muro Comunitario</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -431,7 +431,7 @@ textarea { resize: vertical; line-height: 1.5; }
     <div class="nav-brand">
       <div class="brand-avatar">🌱</div>
       <div>
-        <h1 class="brand-title">EcoReporte</h1>
+        <h1 class="brand-title">EcoAlecta</h1>
         <p class="brand-subtitle">Gestión comunitaria de residuos sólidos</p>
       </div>
     </div>
@@ -632,7 +632,7 @@ textarea { resize: vertical; line-height: 1.5; }
           </div>
 
           <div class="report-footer">
-            <span>🌱 Cuidemos nuestro entorno • EcoReporte</span>
+            <span>🌱 Cuidemos nuestro entorno • EcoAlecta</span>
             <span id="pv-time-now">Hoy</span>
           </div>
         </article>
@@ -819,11 +819,11 @@ function setupActions() {
       const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'EcoReporte-Residuos-Solidos.html';
+      a.download = 'EcoAlecta-Residuos-Solidos.html';
       document.body.appendChild(a);
       a.click();
       a.remove();
-      alert('✅ ¡Archivo "EcoReporte-Residuos-Solidos.html" descargado a tu carpeta de Descargas!\n\nYa puedes adjuntarlo por WhatsApp, correo o Telegram.');
+      alert('✅ ¡Archivo "EcoAlecta-Residuos-Solidos.html" descargado a tu carpeta de Descargas!\n\nYa puedes adjuntarlo por WhatsApp, correo o Telegram.');
     });
   }
 
@@ -1010,7 +1010,7 @@ function publishReportToWall() {
     solution: r.solution || 'Pendiente de coordinación con el equipo vecinal.',
     images: JSON.parse(JSON.stringify(r.images)),
     comments: [
-      { id: 'c_init', author: 'Sistema EcoReporte', text: 'Reporte registrado y visible para la comunidad.', time: 'Hace un momento' }
+      { id: 'c_init', author: 'Sistema EcoAlecta', text: 'Reporte registrado y visible para la comunidad.', time: 'Hace un momento' }
     ]
   };
   state.communityReports.unshift(newPost);
@@ -1020,7 +1020,7 @@ function publishReportToWall() {
 }
 
 function loadCommunityReports() {
-  const saved = localStorage.getItem('ecoreporte_community_posts');
+  const saved = localStorage.getItem('ecoalecta_community_posts');
   if (saved) {
     try { state.communityReports = JSON.parse(saved); }
     catch { state.communityReports = getDefaultCommunityPosts(); }
@@ -1032,7 +1032,7 @@ function loadCommunityReports() {
 }
 
 function saveCommunityReports() {
-  try { localStorage.setItem('ecoreporte_community_posts', JSON.stringify(state.communityReports)); }
+  try { localStorage.setItem('ecoalecta_community_posts', JSON.stringify(state.communityReports)); }
   catch (e) { console.warn(e); }
   updateBadgeCounts();
 }
@@ -1324,3 +1324,4 @@ function createWasteCanvasPhoto(title, sub, color, type) {
   </script>
 </body>
 </html>
+

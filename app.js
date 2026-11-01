@@ -1,5 +1,5 @@
 /**
- * EcoReporte - Reportes de Residuos Sólidos & Muro Comunitario
+ * EcoAlecta - Reportes de Residuos Sólidos & Muro Comunitario
  * Soporte para ver comentarios ya hechos, publicar reportes y comentar.
  */
 
@@ -167,12 +167,12 @@ function setupActions() {
     btnDownload.addEventListener('click', () => {
       // Redirigir o descargar el archivo completo
       const a = document.createElement('a');
-      a.href = 'ecoreporte-completo.html';
-      a.download = 'EcoReporte-Residuos-Solidos.html';
+      a.href = 'ecoalecta-completo.html';
+      a.download = 'EcoAlecta-Residuos-Solidos.html';
       document.body.appendChild(a);
       a.click();
       a.remove();
-      alert('✅ ¡Archivo "EcoReporte-Residuos-Solidos.html" descargado!\n\nEste archivo único contiene todo el sistema y está listo para que lo adjuntes y lo mandes por WhatsApp, correo o Telegram.');
+      alert('✅ ¡Archivo "EcoAlecta-Residuos-Solidos.html" descargado!\n\nEste archivo único contiene todo el sistema y está listo para que lo adjuntes y lo mandes por WhatsApp, correo o Telegram.');
     });
   }
 
@@ -416,7 +416,7 @@ function publishReportToWall() {
     comments: [
       {
         id: 'c_init',
-        author: 'Sistema EcoReporte',
+        author: 'Sistema EcoAlecta',
         text: 'Reporte registrado y visible para toda la comunidad.',
         time: 'Hace un momento'
       }
@@ -435,7 +435,7 @@ function publishReportToWall() {
 // GESTIÓN DEL MURO Y COMENTARIOS YA HECHOS
 // ==========================================================================
 function loadCommunityReports() {
-  const saved = localStorage.getItem('ecoreporte_community_posts');
+  const saved = localStorage.getItem('ecoalecta_community_posts') || localStorage.getItem('ecoreporte_community_posts');
   if (saved) {
     try {
       state.communityReports = JSON.parse(saved);
@@ -451,7 +451,7 @@ function loadCommunityReports() {
 
 function saveCommunityReports() {
   try {
-    localStorage.setItem('ecoreporte_community_posts', JSON.stringify(state.communityReports));
+    localStorage.setItem('ecoalecta_community_posts', JSON.stringify(state.communityReports));
   } catch (e) {
     console.warn('Error guardando en localStorage', e);
   }
