@@ -1,7 +1,44 @@
 /**
  * EcoAlecta - Reportes de Residuos Sólidos & Muro Comunitario
- * Soporte para ver comentarios ya hechos, publicar reportes y comentar.
+ * Conexión en tiempo real con Firebase Cloud Firestore
  */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+// Configuración oficial de Firebase del usuario
+const firebaseConfig = {
+  apiKey: "AIzaSyBz7SIrwdxREJnFDSb-BpO2y0Mnit7aHEI",
+  authDomain: "proyect-aula-vercel-app.firebaseapp.com",
+  projectId: "proyect-aula-vercel-app",
+  storageBucket: "proyect-aula-vercel-app.firebasestorage.app",
+  messagingSenderId: "575520883143",
+  appId: "1:575520883143:web:cef83a7d11b952447199e2",
+  measurementId: "G-MYY1RDZL34"
+};
+
+let db = null;
+let isFirebaseReady = false;
+
+try {
+  const firebaseApp = initializeApp(firebaseConfig);
+  db = getFirestore(firebaseApp);
+  isFirebaseReady = true;
+  console.log("🔥 Firebase inicializado con éxito en EcoAlecta.");
+} catch (e) {
+  console.warn("⚠️ No se pudo conectar a Firebase directamente, modo fallback local activado:", e);
+}
 
 // ESTADO GLOBAL
 const state = {
@@ -239,7 +276,8 @@ function handleFiles(files) {
 function compressAndAddImage(dataUrl, defaultName) {
   const img = new Image();
   img.onload = () => {
-    const max = 1200;
+    // Reescalar para Firestore (asegura velocidad y ligereza en celulares)
+    const max = 900;
     let w = img.width;
     let h = img.height;
 
@@ -259,7 +297,7 @@ function compressAndAddImage(dataUrl, defaultName) {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, w, h);
 
-    const optimized = canvas.toDataURL('image/jpeg', 0.85);
+    const optimized = canvas.toDataURL('image/jpeg', 0.78);
 
     state.currentReport.images.push({
       id: 'img_' + Math.random().toString(36).substr(2, 6),
@@ -393,9 +431,9 @@ function openZoom(src, caption) {
 }
 
 // ==========================================================================
-// PUBLICAR REPORTE AL MURO COMUNITARIO
+// PUBLICAR REPORTE AL MURO COMUNITARIO (EN LA NUBE CON FIRESTORE)
 // ==========================================================================
-function publishReportToWall() {
+async function publishReportToWall() {
   const r = state.currentReport;
   if (!r.location.trim()) {
     alert('Por favor escribe al menos el lugar o sector donde se ubica el problema.');
@@ -403,8 +441,14 @@ function publishReportToWall() {
     return;
   }
 
-  const newPost = {
-    id: 'post_' + Date.now(),
+  const publishBtn = document.getElementById('btn-publish-wall');
+  const originalText = publishBtn ? publishBtn.textContent : '';
+  if (publishBtn) {
+    publishBtn.disabled = true;
+    publishBtn.textContent = '⏳ Guardando en la nube...';
+  }
+
+  const newPostData = {
     location: r.location,
     reporter: r.reporter || 'Vecino anónimo',
     date: r.date || new Date().toISOString().split('T')[0],
@@ -412,7 +456,7 @@ function publishReportToWall() {
     urgency: r.urgency,
     description: r.description || 'Sin descripción adicional.',
     solution: r.solution || 'Pendiente de coordinación con el equipo vecinal.',
-    images: JSON.parse(JSON.stringify(r.images)),
+    images: JSON.parse(JSON.stringify(r.images || [])),
     comments: [
       {
         id: 'c_init',
@@ -423,18 +467,63 @@ function publishReportToWall() {
     ]
   };
 
-  // Añadir al inicio de la lista
-  state.communityReports.unshift(newPost);
-  saveCommunityReports();
-
-  alert('🎉 ¡Tu reporte ha sido publicado con éxito en el Muro Comunitario!');
-  switchView('feed');
+  try {
+    if (isFirebaseReady && db) {
+      await addDoc(collection(db, "reports"), {
+        ...newPostData,
+        createdAt: serverTimestamp()
+      });
+      alert('🎉 ¡Tu reporte ha sido guardado en la nube! Todos en https://proyect-aula.vercel.app/ lo verán al instante.');
+    } else {
+      throw new Error("Firebase no inicializado");
+    }
+  } catch (err) {
+    console.warn("No se pudo guardar en Firestore, guardando localmente:", err);
+    const fallbackPost = { ...newPostData, id: 'post_' + Date.now() };
+    state.communityReports.unshift(fallbackPost);
+    saveCommunityReports();
+    alert('🎉 ¡Tu reporte ha sido publicado en el Muro Comunitario!');
+  } finally {
+    if (publishBtn) {
+      publishBtn.disabled = false;
+      publishBtn.textContent = originalText;
+    }
+    switchView('feed');
+  }
 }
 
 // ==========================================================================
-// GESTIÓN DEL MURO Y COMENTARIOS YA HECHOS
+// GESTIÓN DEL MURO Y SINCRONIZACIÓN EN TIEMPO REAL
 // ==========================================================================
 function loadCommunityReports() {
+  if (isFirebaseReady && db) {
+    try {
+      const q = query(collection(db, "reports"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        if (!snapshot.empty) {
+          state.communityReports = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+        } else {
+          // Si Firestore aún no tiene reportes, mostrar ejemplos por defecto
+          state.communityReports = getDefaultCommunityPosts();
+        }
+        updateBadgeCounts();
+        renderCommunityFeed();
+      }, (error) => {
+        console.warn("Aviso Firestore (verificar que Cloud Firestore esté creada en modo prueba):", error);
+        loadCommunityReportsFallback();
+      });
+      return;
+    } catch (e) {
+      console.warn("Error suscribiendo a Firestore:", e);
+    }
+  }
+  loadCommunityReportsFallback();
+}
+
+function loadCommunityReportsFallback() {
   const saved = localStorage.getItem('ecoalecta_community_posts') || localStorage.getItem('ecoreporte_community_posts');
   if (saved) {
     try {
@@ -447,6 +536,7 @@ function loadCommunityReports() {
     saveCommunityReports();
   }
   updateBadgeCounts();
+  renderCommunityFeed();
 }
 
 function saveCommunityReports() {
@@ -583,18 +673,35 @@ function renderCommunityFeed() {
     const inputComment = card.querySelector('.input-quick-comment');
     const btnComment = card.querySelector('.btn-send-comment');
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
       const val = inputComment.value.trim();
       if (!val) return;
 
-      if (!post.comments) post.comments = [];
-      post.comments.push({
+      const newComment = {
         id: 'c_' + Date.now(),
         author: 'Vecino participativo',
         text: val,
         time: 'Justo ahora'
-      });
+      };
 
+      inputComment.value = '';
+
+      // Si el post está en Firestore en la nube
+      if (isFirebaseReady && db && post.id && !post.id.startsWith('post_')) {
+        try {
+          const postRef = doc(db, "reports", post.id);
+          await updateDoc(postRef, {
+            comments: arrayUnion(newComment)
+          });
+          return; // onSnapshot actualizará la vista automáticamente
+        } catch (err) {
+          console.warn("Error guardando comentario en Firestore, guardando local:", err);
+        }
+      }
+
+      // Fallback local
+      if (!post.comments) post.comments = [];
+      post.comments.push(newComment);
       saveCommunityReports();
       renderCommunityFeed();
     };
